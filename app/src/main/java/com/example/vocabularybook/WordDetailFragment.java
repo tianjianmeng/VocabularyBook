@@ -6,9 +6,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class WordDetailFragment extends Fragment {
     public static final String ARG_ID = "id";
@@ -30,9 +36,12 @@ public class WordDetailFragment extends Fragment {
         if (getArguments() != null) {
             mID = getArguments().getString(ARG_ID);
         }
+
+
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_word_detail, container, false);
+        Button delete = view.findViewById(R.id.action_delete);
         WordsDB wordsDB=WordsDB.getWordsDB();
         if(wordsDB!=null && mID!=null){
             TextView textViewWord=(TextView)view.findViewById(R.id.word);
@@ -50,6 +59,13 @@ public class WordDetailFragment extends Fragment {
                 textViewWordSample.setText("");
             }
         }
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WordsDB wordsDB=WordsDB.getWordsDB();
+                wordsDB.Delete(mID);
+            }
+        });
         return view;
     }
 

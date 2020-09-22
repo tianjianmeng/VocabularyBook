@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 
 import java.util.LinkedList;
@@ -53,11 +54,6 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
                 InsertDialog();
                 break;
             }
-            case R.id.help:{
-                /*Intent intent = new Intent(MainActivity.this,Help.class);
-                startActivity(intent);*/
-                break;
-            }
             case R.id.exit:{
                 exit();
             }
@@ -71,15 +67,11 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
         System.exit(0);
     }
 
-    public void onWordDetailClick(Uri uri) {  }
+    public void onWordDetailClick(Uri uri) {
+
+    }
     public void onWordItemClick(String id) {
-        if(isLand()) {
-            ChangeWordDetailFragment(id);
-        }else{
-            Intent intent = new Intent(MainActivity.this,WordDetailActivity.class);
-            intent.putExtra(WordDetailFragment.ARG_ID, id);
-            startActivity(intent);
-        }
+        ChangeWordDetailFragment(id);
     }
 
     public void onDeleteDialog(String strId) {
@@ -94,11 +86,11 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
             }
         }
     }
-    private boolean isLand(){
+    /*private boolean isLand(){
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
             return true;
         return false;
-    }
+    }*/
     private void ChangeWordDetailFragment(String id){
         Bundle arguments = new Bundle();
         arguments.putString(WordDetailFragment.ARG_ID, id);
@@ -109,17 +101,19 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
     }
     private void InsertDialog() {
         Log.v(TAG, "insert");
-        final TableLayout tableLayout = (TableLayout) getLayoutInflater().inflate(R.layout.insert, null);
-        Log.v(TAG, "getTableLayout");
-        new AlertDialog.Builder(this).setTitle("新增单词").setView(tableLayout).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.insert, null);
+        Log.v(TAG, "getLayout");
+        new AlertDialog.Builder(this).setTitle("新增单词").setView(linearLayout).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String strWord = ((EditText) tableLayout.findViewById(R.id.txtWord)).getText().toString();
-                        String strMeaning = ((EditText) tableLayout.findViewById(R.id.txtMeaning)).getText().toString();
-                        String strSample = ((EditText) tableLayout.findViewById(R.id.txtSample)).getText().toString();
-                        Log.v("test",strWord+":"+strMeaning+":"+strSample);
+                        String strWord = ((EditText) linearLayout.findViewById(R.id.txtWord)).getText().toString();
+                        String strMeaning = ((EditText) linearLayout.findViewById(R.id.txtMeaning)).getText().toString();
+                        String strSample = ((EditText) linearLayout.findViewById(R.id.txtSample)).getText().toString();
+                        Log.v(TAG,strWord+":"+strMeaning+":"+strSample);
                         //InsertUserSql(strWord, strMeaning, strSample);
                         WordsDB wordsDB=WordsDB.getWordsDB();
+                        Log.v(TAG, "getDB");
                         wordsDB.Insert(strWord, strMeaning, strSample);
+                        Log.v(TAG, "have-inserted");
                         RefreshWordItemFragment();
                     }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -145,15 +139,15 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
         }).create().show();
     }
     private void UpdateDialog(final String strId, final String strWord, final String strMeaning, final String strSample) {
-        final TableLayout tableLayout = (TableLayout) getLayoutInflater().inflate(R.layout.insert, null);
-        ((EditText) tableLayout.findViewById(R.id.txtWord)).setText(strWord);
-        ((EditText) tableLayout.findViewById(R.id.txtMeaning)).setText(strMeaning);
-        ((EditText) tableLayout.findViewById(R.id.txtSample)).setText(strSample);
-        new AlertDialog.Builder(this).setTitle("修改单词").setView(tableLayout).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        final LinearLayout LinearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.insert, null);
+        ((EditText) LinearLayout.findViewById(R.id.txtWord)).setText(strWord);
+        ((EditText) LinearLayout.findViewById(R.id.txtMeaning)).setText(strMeaning);
+        ((EditText) LinearLayout.findViewById(R.id.txtSample)).setText(strSample);
+        new AlertDialog.Builder(this).setTitle("修改单词").setView(LinearLayout).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int i) {
-                String strNewWord = ((EditText) tableLayout.findViewById(R.id.txtWord)).getText().toString();
-                String strNewMeaning = ((EditText) tableLayout.findViewById(R.id.txtMeaning)).getText().toString();
-                String strNewSample = ((EditText) tableLayout.findViewById(R.id.txtSample)).getText().toString();
+                String strNewWord = ((EditText) LinearLayout.findViewById(R.id.txtWord)).getText().toString();
+                String strNewMeaning = ((EditText) LinearLayout.findViewById(R.id.txtMeaning)).getText().toString();
+                String strNewSample = ((EditText) LinearLayout.findViewById(R.id.txtSample)).getText().toString();
                 WordsDB wordsDB=WordsDB.getWordsDB();
                 wordsDB.UpdateUseSql(strId, strWord, strNewMeaning, strNewSample);
                 RefreshWordItemFragment();
@@ -165,10 +159,10 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
     }).create().show();
     }
     private void SearchDialog() {
-        final TableLayout tableLayout = (TableLayout) getLayoutInflater().inflate(R.layout.searchterm, null);
-        new AlertDialog.Builder(this).setTitle("查找单词").setView(tableLayout).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        final LinearLayout  LinearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.searchterm, null);
+        new AlertDialog.Builder(this).setTitle("查找单词").setView(LinearLayout).setPositiveButton("确定", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialogInterface, int i) {
-            String txtSearchWord = ((EditText) tableLayout.findViewById(R.id.txtSearchWord)).getText().toString();
+            String txtSearchWord = ((EditText) LinearLayout.findViewById(R.id.txtSearchWord)).getText().toString();
         RefreshWordItemFragment(txtSearchWord);
     }
     }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -177,11 +171,11 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
             }
             }).create().show();
     }
-    private void RefreshWordItemFragment() {
+    public void RefreshWordItemFragment() {
         WordItemFragment wordItemFragment = (WordItemFragment) getSupportFragmentManager().findFragmentById(R.id.wordslist);
         wordItemFragment.refreshWordsList();
     }
-    private void RefreshWordItemFragment(String strWord) {
+    public void RefreshWordItemFragment(String strWord) {
         WordItemFragment wordItemFragment = (WordItemFragment) getSupportFragmentManager().findFragmentById(R.id.wordslist);
         wordItemFragment.refreshWordsList(strWord);
     }

@@ -9,17 +9,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="100dp"
-        android:layout_marginLeft="100dp" />
+        android:layout_marginLeft="10dp" />
     <TextView
         android:id="@+id/wordmeaning"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="100dp" />
+        android:layout_marginLeft="10dp" />
     <TextView
         android:id="@+id/wordsample"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="100dp" />
+        android:layout_marginLeft="10dp" />
+    <Button
+        android:id="@+id/action_delete"
+        android:text="delete"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp" />
 </LinearLayout>
