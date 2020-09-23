@@ -11,7 +11,7 @@ import java.util.Map;
 public class WordsDB {
     private static final String TAG = "DBtag";
     private static WordsDBHelper mDbHelper;
-    private static WordsDB instance=new WordsDB();
+    private static WordsDB instance = new WordsDB();
     public static WordsDB getWordsDB(){
         return WordsDB.instance;
     }
@@ -54,18 +54,15 @@ public class WordsDB {
             map.put(Words.Word.COLUMN_NAME_WORD, cursor.getString(cursor.getColumnIndex("word")));
             list.add(map);
         }
+        /*if(cursor.moveToFirst()){
 
-        if(cursor.moveToFirst()){
-
-        }
+        }*/
         return list;
     }
     //insertsql
     public void Insert(String strWord, String strMeaning, String strSample) {
         Log.v(TAG,strWord+":"+strMeaning+":"+strSample);
-
         String sql="insert into  words(word,meaning,sample) values(?,?,?)";
-
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         Log.v(TAG, "have DBhelpered");
         db.execSQL(sql,new String[]{strWord,strMeaning,strSample});

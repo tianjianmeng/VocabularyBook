@@ -13,9 +13,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -32,12 +32,17 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
         helper.getReadableDatabase();
         helper.close();
     }
+    private boolean isLand(){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            return true;
+        }
+        return false;
+    }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menus,menu);
         Log.v(TAG, "menu");
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Log.v(TAG, "menu-opened");
@@ -70,12 +75,27 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
     public void onWordDetailClick(Uri uri) {
 
     }
-    public void onWordItemClick(String id) {
-        ChangeWordDetailFragment(id);
+    public void onWordItemClick(final String id) {
+        if(isLand()) {
+            ChangeWordDetailFragment(id);
+        }else {
+            Intent intent = new Intent(MainActivity.this, WordDetailActivity.class);
+            intent.putExtra(WordDetailFragment.ARG_ID, id);
+            startActivity(intent);
+        }
+
+        View mLongPressView = new LongPressView(this);
+        mLongPressView.setOnLongClickListener(new View.OnLongClickListener() { //长按单词修改或删除
+            public boolean onLongClick(View v) {
+                onDeleteDialog(id);
+                return true;
+            }
+        });
     }
 
     public void onDeleteDialog(String strId) {
         DeleteDialog(strId);
+        RefreshWordItemFragment();
     }
     public void onUpdateDialog(String strId) {
         WordsDB wordsDB=WordsDB.getWordsDB();
@@ -85,12 +105,8 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
                 UpdateDialog(strId, item.word, item.meaning, item.sample);
             }
         }
+        RefreshWordItemFragment();
     }
-    /*private boolean isLand(){
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-            return true;
-        return false;
-    }*/
     private void ChangeWordDetailFragment(String id){
         Bundle arguments = new Bundle();
         arguments.putString(WordDetailFragment.ARG_ID, id);
