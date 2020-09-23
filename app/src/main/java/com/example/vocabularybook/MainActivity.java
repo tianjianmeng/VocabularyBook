@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
                         String strMeaning = ((EditText) linearLayout.findViewById(R.id.txtMeaning)).getText().toString();
                         String strSample = ((EditText) linearLayout.findViewById(R.id.txtSample)).getText().toString();
                         Log.v(TAG,strWord+":"+strMeaning+":"+strSample);
-                        //InsertUserSql(strWord, strMeaning, strSample);
                         WordsDB wordsDB=WordsDB.getWordsDB();
                         Log.v(TAG, "getDB");
                         wordsDB.Insert(strWord, strMeaning, strSample);
@@ -165,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements WordItemFragment.
                 String strNewMeaning = ((EditText) LinearLayout.findViewById(R.id.txtMeaning)).getText().toString();
                 String strNewSample = ((EditText) LinearLayout.findViewById(R.id.txtSample)).getText().toString();
                 WordsDB wordsDB=WordsDB.getWordsDB();
-                wordsDB.UpdateUseSql(strId, strWord, strNewMeaning, strNewSample);
+                wordsDB.UpdateUseSql(strId, strNewWord, strNewMeaning, strNewSample);
                 RefreshWordItemFragment();
                 }
     }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
