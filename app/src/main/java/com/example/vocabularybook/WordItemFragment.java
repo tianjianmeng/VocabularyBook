@@ -78,7 +78,7 @@ public class WordItemFragment extends ListFragment {
     }
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.contextmenu_wordslistview, menu);
+        getActivity().getMenuInflater().inflate(R.menu.WordsListMenu, menu);
     }
     public boolean onContextItemSelected(MenuItem item) {
         TextView textId = null;

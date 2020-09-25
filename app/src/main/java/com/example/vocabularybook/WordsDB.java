@@ -54,12 +54,8 @@ public class WordsDB {
             map.put(Words.Word.COLUMN_NAME_WORD, cursor.getString(cursor.getColumnIndex("word")));
             list.add(map);
         }
-        /*if(cursor.moveToFirst()){
-
-        }*/
         return list;
     }
-    //insertsql
     public void Insert(String strWord, String strMeaning, String strSample) {
         Log.v(TAG,strWord+":"+strMeaning+":"+strSample);
         String sql="insert into  words(word,meaning,sample) values(?,?,?)";
